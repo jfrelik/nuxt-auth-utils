@@ -68,8 +68,8 @@ export function microsoftEventHandler({ config, onSuccess, onError }: OAuthConfi
       return onError(event, error)
     }
 
-    const authorizationURL = config.authorizationURL || `https://login.microsoftonline.com/${config.tenant}/oauth2/v2.0/authorize`
-    const tokenURL = config.tokenURL || `https://login.microsoftonline.com/${config.tenant}/oauth2/v2.0/token`
+    const authorizationURL = `${config.authorizationURL || 'https://login.microsoftonline.com'}/${config.tenant}/oauth2/v2.0/authorize`
+    const tokenURL = `${config.tokenURL || 'https://login.microsoftonline.com'}/${config.tenant}/oauth2/v2.0/token`
 
     const redirectUrl = getRequestURL(event).href
     if (!code) {
@@ -118,7 +118,7 @@ export function microsoftEventHandler({ config, onSuccess, onError }: OAuthConfi
 
     const tokenType = tokens.token_type
     const accessToken = tokens.access_token
-    const userURL = config.userURL || 'https://graph.microsoft.com/v1.0/me'
+    const userURL = `${config.userURL || 'https://graph.microsoft.com'}/v1.0/me`
     const user: any = await ofetch(userURL, {
       headers: {
         Authorization: `${tokenType} ${accessToken}`
